@@ -1,0 +1,11 @@
+.idea/
+.vscode/
+node_modules/
+build/
+temp/
+*.log
+dump.rdb
+.env
+.env.prod
+dist
+.netlify
