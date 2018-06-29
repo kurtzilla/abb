@@ -9,4 +9,3 @@ dump.rdb
 .env.prod
 dist
 .netlify
-**/.expo/*
