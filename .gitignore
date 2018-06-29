@@ -10,3 +10,4 @@ dump.rdb
 dist
 .netlify
 .expo/
+npm-debug.*
