@@ -10,9 +10,8 @@ temp/
 dist
 
 .env
-.env.prod
-.env.development
-.env.production
+.env.*
+!.env.example
 
 dump.rdb
 *.log
