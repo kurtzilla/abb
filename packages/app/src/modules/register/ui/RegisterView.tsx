@@ -1,7 +1,8 @@
 import * as React from 'react';
-import { View, Button } from 'react-native';
 import { withFormik, FormikErrors, FormikProps, Field } from 'formik';
 import { validUserSchema } from '@abb/common';
+import { View, Text } from 'react-native';
+import { Card, Button } from 'react-native-elements';
 import { InputField } from '../../shared/InputField';
 
 interface FormValues {
@@ -18,15 +19,30 @@ class C extends React.PureComponent<FormikProps<FormValues> & Props> {
     const { handleSubmit } = this.props;
 
     return (
-      <View style={{ marginTop: 200 }}>
-        <Field name="email" placeholder="Email" component={InputField} />
-        <Field
-          name="password"
-          secureTextEntry={true}
-          placeholder="Password"
-          component={InputField}
-        />
-        <Button title="submit" onPress={handleSubmit as any} />
+      <View style={{ flex: 1, display: 'flex', justifyContent: 'center' }}>
+        <Card>
+          <Text style={{ fontSize: 30, marginBottom: 10 }}>Register</Text>
+          <Field
+            name="email"
+            placeholder="Email"
+            component={InputField}
+            containerStyle={{ width: '100%' }}
+            autoCapitalize="none"
+          />
+          <Field
+            name="password"
+            secureTextEntry={true}
+            placeholder="Password"
+            component={InputField}
+            containerStyle={{ width: '100%' }}
+            autoCapitalize="none"
+          />
+          <Button
+            style={{ marginTop: 30 }}
+            title="submit"
+            onPress={handleSubmit as any}
+          />
+        </Card>
       </View>
     );
   }
