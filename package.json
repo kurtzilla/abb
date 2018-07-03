@@ -1,9 +1,12 @@
 {
   "private": true,
   "scripts": {
+    "build:common": "lerna run build --scope=@abb/common",
+    "build:controller": "lerna run build --scope=@abb/controller",
     "build:server": "lerna run build --scope={@abb/common,@abb/server}",
     "build:web": "lerna run build --scope={@abb/common,@abb/web}",
-    "build:app": "lerna run build --scope={@abb/common,@abb/controller,@abb/app}"
+    "build:app": "lerna run build --scope={@abb/common,@abb/controller,@abb/app}",
+    "build:all": "lerna run build --scope={@abb/common,@abb/controller,@abb/app,@abb/server,@abb/web}"
   },
   "workspaces": {
     "packages": [
