@@ -1,11 +1,12 @@
-import { validUserSchema } from "@abb/common";
+import { validUserSchema } from '@abb/common';
 
-import { ResolverMap } from "../../../types/graphql-utils";
-import { User } from "../../../entity/User";
-import { formatYupError } from "../../../utils/formatYupError";
-import { duplicateEmail } from "./errorMessages";
-import { createConfirmEmailLink } from "./createConfirmEmailLink";
-import { sendEmail } from "../../../utils/sendEmail";
+import { ResolverMap } from '../../../types/graphql-utils';
+import { User } from '../../../entity/User';
+import { formatYupError } from '../../../utils/formatYupError';
+import { duplicateEmail } from './errorMessages';
+
+import { createConfirmEmailLink } from './createConfirmEmailLink';
+import { sendEmail } from '../../../utils/sendEmail';
 
 export const resolvers: ResolverMap = {
   Mutation: {
@@ -24,13 +25,13 @@ export const resolvers: ResolverMap = {
 
       const userAlreadyExists = await User.findOne({
         where: { email },
-        select: ["id"]
+        select: ['id']
       });
 
       if (userAlreadyExists) {
         return [
           {
-            path: "email",
+            path: 'email',
             message: duplicateEmail
           }
         ];
@@ -38,16 +39,20 @@ export const resolvers: ResolverMap = {
 
       const user = User.create({
         email,
-        password
+        password,
+        confirmed: true
       });
 
       await user.save();
 
-      if (process.env.NODE_ENV !== "test") {
-        await sendEmail(
-          email,
-          await createConfirmEmailLink(url, user.id, redis)
-        );
+      // TODO turn this back on
+      if (false) {
+        if (process.env.NODE_ENV !== 'test') {
+          await sendEmail(
+            email,
+            await createConfirmEmailLink(url, user.id, redis)
+          );
+        }
       }
 
       return null;
