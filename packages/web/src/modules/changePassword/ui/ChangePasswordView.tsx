@@ -3,15 +3,14 @@ import { Form as AntForm, Icon, Button } from 'antd';
 import { withFormik, FormikProps, Field, Form } from 'formik';
 import { Link } from 'react-router-dom';
 
-import { loginSchema } from '@abb/common';
 import { InputField } from '../../shared/InputField';
 import { NormalizedErrorMap } from '@abb/controller';
+import { changePasswordSchema } from '@abb/common';
 
 const FormItem = AntForm.Item;
 
 interface FormValues {
-  email: string;
-  password: string;
+  newPassword: string;
 }
 
 interface Props {
@@ -24,36 +23,28 @@ class C extends React.PureComponent<FormikProps<FormValues> & Props> {
       <Form style={{ display: 'flex' }}>
         <div style={{ width: 400, margin: 'auto' }}>
           <Field
-            name="email"
-            prefix={
-              <Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} /> as any
-            }
-            placeholder="Email"
-            component={InputField}
-          />
-          <Field
-            name="password"
+            name="newPassword"
             type="password"
             prefix={
               <Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} /> as any
             }
-            placeholder="Password"
+            placeholder="New Password"
             component={InputField}
           />
-          <FormItem>
-            <Link to="/forgot-password">Forgot password</Link>
-          </FormItem>
           <FormItem>
             <Button
               type="primary"
               htmlType="submit"
               className="login-form-button"
             >
-              Login
+              change password
             </Button>
           </FormItem>
           <FormItem>
-            Or <Link to="/register">register</Link>
+            <Link to="/register">register</Link>
+          </FormItem>
+          <FormItem>
+            <Link to="/login">login</Link>
           </FormItem>
         </div>
       </Form>
@@ -61,11 +52,9 @@ class C extends React.PureComponent<FormikProps<FormValues> & Props> {
   }
 }
 
-export const LoginView = withFormik<Props, FormValues>({
-  validationSchema: loginSchema,
-  validateOnBlur: false,
-  validateOnChange: false,
-  mapPropsToValues: () => ({ email: '', password: '' }),
+export const ChangePasswordView = withFormik<Props, FormValues>({
+  validationSchema: changePasswordSchema,
+  mapPropsToValues: () => ({ newPassword: '' }),
   handleSubmit: async (values, { props, setErrors }) => {
     const errors = await props.submit(values);
     if (errors) {

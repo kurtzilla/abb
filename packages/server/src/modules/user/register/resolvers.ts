@@ -4,7 +4,6 @@ import { ResolverMap } from '../../../types/graphql-utils';
 import { User } from '../../../entity/User';
 import { formatYupError } from '../../../utils/formatYupError';
 import { duplicateEmail } from './errorMessages';
-
 import { createConfirmEmailLink } from './createConfirmEmailLink';
 import { sendEmail } from '../../../utils/sendEmail';
 
@@ -39,20 +38,17 @@ export const resolvers: ResolverMap = {
 
       const user = User.create({
         email,
-        password,
-        confirmed: true
+        password
       });
 
       await user.save();
 
-      // TODO turn this back on
-      if (false) {
-        if (process.env.NODE_ENV !== 'test') {
-          await sendEmail(
-            email,
-            await createConfirmEmailLink(url, user.id, redis)
-          );
-        }
+      if (process.env.NODE_ENV !== 'test') {
+        await sendEmail(
+          email,
+          await createConfirmEmailLink(url, user.id, redis),
+          'confirm email'
+        );
       }
 
       return null;
