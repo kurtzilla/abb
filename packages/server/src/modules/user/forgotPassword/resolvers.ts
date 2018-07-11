@@ -50,43 +50,54 @@ export const resolvers: ResolverMap = {
       _,
       { newPassword, key }: GQL.IForgotPasswordChangeOnMutationArguments,
       { redis }
-    ) => {
-      const redisKey = `${forgotPasswordPrefix}${key}`;
+    ) =>
+      // if doing auto-login...
+      // { redis, session, req }
+      {
+        const redisKey = `${forgotPasswordPrefix}${key}`;
 
-      const userId = await redis.get(redisKey);
-      if (!userId) {
-        return [
-          {
-            path: 'newPassword',
-            message: expiredKeyError
-          }
-        ];
-      }
-
-      try {
-        await changePasswordSchema.validate(
-          { newPassword },
-          { abortEarly: false }
-        );
-      } catch (err) {
-        return formatYupError(err);
-      }
-
-      const hashedPassword = await bcrypt.hash(newPassword, 10);
-
-      const updatePromise = User.update(
-        { id: userId },
-        {
-          forgotPasswordLocked: false,
-          password: hashedPassword
+        const userId = await redis.get(redisKey);
+        if (!userId) {
+          return [
+            {
+              path: 'newPassword',
+              message: expiredKeyError
+            }
+          ];
         }
-      );
 
-      const deleteKeyPromise = redis.del(redisKey);
+        try {
+          await changePasswordSchema.validate(
+            { newPassword },
+            { abortEarly: false }
+          );
+        } catch (err) {
+          return formatYupError(err);
+        }
 
-      await Promise.all([updatePromise, deleteKeyPromise]);
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
 
-      return null;
-    }
+        const updatePromise = User.update(
+          { id: userId },
+          {
+            forgotPasswordLocked: false,
+            password: hashedPassword
+          }
+        );
+
+        const deleteKeyPromise = redis.del(redisKey);
+
+        await Promise.all([updatePromise, deleteKeyPromise]);
+
+        // auto login a sucessful change
+        // session.userId = userId;
+        // if (req.sessionID) {
+        //   await redis.lpush(`${userSessionIdPrefix}${userId}`, req.sessionID);
+        // }
+        // native will need a return
+        // return { sessionId: req.sessionID };
+
+        return null;
+      }
   }
 };

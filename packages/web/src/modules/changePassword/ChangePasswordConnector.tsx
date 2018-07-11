@@ -4,7 +4,7 @@ import { ChangePasswordController } from '@abb/controller';
 
 import { ChangePasswordView } from './ui/ChangePasswordView';
 
-// tell react router the name of the variable in the route taht we want to pull off
+// tell react router the name of the variable in the route that we want to pull off
 export class ChangePasswordConnector extends React.PureComponent<
   RouteComponentProps<{ key: string }>
 > {
@@ -22,7 +22,7 @@ export class ChangePasswordConnector extends React.PureComponent<
 
     // see minute 2 of vid 27 for a non-lambda solution
     // because the changepasswordview form does not have access to the props
-    // we need to use a lambda to send in the key
+    // we can use a lambda to send in the key
     return (
       <ChangePasswordController>
         {({ submit }) => (
@@ -41,7 +41,7 @@ export class ChangePasswordConnector extends React.PureComponent<
     //     {({ submit }) => (
     //       <ChangePasswordView
     //         onFinish={this.onFinish}
-    //         key={key}
+    //         token={key}
     //         submit={submit}
     //       />
     //     )}
