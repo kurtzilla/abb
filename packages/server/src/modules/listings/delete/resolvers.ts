@@ -1,11 +1,11 @@
 import { ResolverMap } from '../../../types/graphql-utils';
 import { Listing } from '../../../entity/Listing';
-import { isAuthenticated } from '../../shared/isAuthenticated';
+// import { isAuthenticated } from '../../shared/isAuthenticated';
 
 export const resolvers: ResolverMap = {
   Mutation: {
     delete: async (_, { id }, { session }) => {
-      isAuthenticated(session);
+      // isAuthenticated(session);
 
       const listing = await Listing.findOne({ where: { id } });
 

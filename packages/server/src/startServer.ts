@@ -6,6 +6,8 @@ import * as session from 'express-session';
 import * as connectRedis from 'connect-redis';
 import * as RateLimit from 'express-rate-limit';
 import * as RateLimitRedisStore from 'rate-limit-redis';
+import { applyMiddleware } from 'graphql-middleware';
+import { middleware } from './middleware';
 
 import { redis } from './redis';
 import { createTypeormConn } from './utils/createTypeormConn';
@@ -21,6 +23,9 @@ export const startServer = async () => {
   if (process.env.NODE_ENV === 'test') {
     await redis.flushall();
   }
+
+  const schema = genSchema() as any;
+  applyMiddleware(schema, middleware);
 
   const server = new GraphQLServer({
     schema: genSchema() as any,
