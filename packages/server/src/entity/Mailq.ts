@@ -49,7 +49,8 @@ export class Mailq extends BaseEntity {
   @Column('text', { nullable: true })
   mailBody: string;
 
+  @Column('int') mailTemplateId: number;
   @OneToOne(() => MailTemplate)
-  @JoinColumn()
+  @JoinColumn({ name: 'mailTemplateId' })
   mailTemplate: MailTemplate | null;
 }
