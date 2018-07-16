@@ -1,4 +1,4 @@
-import * as rp from "request-promise";
+import * as rp from 'request-promise';
 
 export class TestClient {
   url: string;
@@ -84,10 +84,41 @@ export class TestClient {
         query: `
         mutation {
           login(email: "${email}", password: "${password}") {
-            path
-            message
+            errors {
+              path
+              message
+            }
+            sessionId
           }
         }
+        `
+      }
+    });
+  }
+
+  async allMailQs() {
+    return rp.post(this.url, {
+      ...this.options,
+      body: {
+        query: `
+          {
+            allMailQs {
+              id
+              mailqId
+              dtStamp
+              threadlock
+              priority
+              dtToProcess
+              dtProcessed
+              attemptsRemaining
+              status
+              fromName
+              fromAddress
+              toAddress
+              paramValues
+              mailBody
+            }
+          }
         `
       }
     });

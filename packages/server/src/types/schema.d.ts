@@ -22,16 +22,27 @@ column: number;
 
 interface IQuery {
 __typename: "Query";
-dummy2: string | null;
-bye2: string | null;
-dummy: string | null;
+allMailQs: Array<IMailq>;
 me: IUser | null;
-bye: string | null;
-hello: string;
 }
 
-interface IHelloOnQueryArguments {
-name?: string | null;
+interface IMailq {
+__typename: "Mailq";
+id: number;
+mailqId: string;
+dtStamp: string;
+threadlock: string;
+priority: number;
+dtToProcess: string;
+dtProcessed: string | null;
+attemptsRemaining: number;
+status: string;
+fromName: string | null;
+fromAddress: string;
+toAddress: string;
+paramValues: Array<string>;
+mailBody: string | null;
+mailerId: number | null;
 }
 
 interface IUser {
@@ -44,7 +55,7 @@ interface IMutation {
 __typename: "Mutation";
 sendForgotPasswordEmail: boolean | null;
 forgotPasswordChange: Array<IError>;
-login: Array<IError>;
+login: ILoginResponse;
 logout: boolean | null;
 register: Array<IError>;
 }
@@ -72,6 +83,12 @@ interface IError {
 __typename: "Error";
 path: string;
 message: string;
+}
+
+interface ILoginResponse {
+__typename: "LoginResponse";
+errors: Array<IError>;
+sessionId: string | null;
 }
 }
 

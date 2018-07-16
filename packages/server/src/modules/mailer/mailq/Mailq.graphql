@@ -1,0 +1,17 @@
+type Mailq {
+  id: Int!
+  mailqId: ID!
+  dtStamp: String!
+  threadlock: String!
+  priority: Int!
+  dtToProcess: String!
+  dtProcessed: String
+  attemptsRemaining: Int!
+  status: String!
+  fromName: String
+  fromAddress: String!
+  toAddress: String!
+  paramValues: [String!]
+  mailBody: String
+  mailerId: Int
+}
