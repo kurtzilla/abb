@@ -2,7 +2,7 @@
   {
     "name": "production",
     "type": "postgres",
-    "synchronize": true,
+    "synchronize": false,
     "logging": true
   },
   {
@@ -13,7 +13,7 @@
     "username": "vork",
     "password": "Gavin12!",
     "database": "abb-clone-server",
-    "synchronize": true,
+    "synchronize": false,
     "logging": true,
     "entities": ["src/entity/**/*.ts"],
     "migrations": ["src/migration/**/*.ts"],
